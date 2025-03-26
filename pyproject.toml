@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "agentshop"
+version = "0.1.0"
+description = ""
+authors = ["kyeonghun-kim <kyeonghun.dev@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.3.21"
+langchain-openai = "^0.3.9"
+community = "^1.0.0b1"
+langgraph = "^0.3.18"
+python-dotenv = "^1.0.1"
+beautifulsoup4 = "^4.13.3"
+crawl4ai = "^0.5.0.post4"
+streamlit = "^1.43.2"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
