@@ -8,3 +8,6 @@ libgbm1
 libasound2
 libpangocairo-1.0-0
 libxshmfence1
+libcups2
+libxfixes3
+libxkbcommon0
