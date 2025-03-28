@@ -12,8 +12,32 @@ from crawl4ai import (
 )
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from dotenv import load_dotenv
+import os
 
 load_dotenv(".env")
+
+# 비밀번호 설정 (보안상 .env 에서 불러오는 게 좋음)
+PASSWORD = os.getenv("APP_PASSWORD", "wjsdbqlsdnwjddls123")
+
+
+def password_gate():
+    if "authenticated" not in st.session_state:
+        st.session_state.authenticated = False
+
+    if not st.session_state.authenticated:
+        st.title("🔐 Password Required")
+        pw = st.text_input("Enter the password", type="password")
+        if pw == PASSWORD:
+            st.session_state.authenticated = True
+            st.success("Access granted!")
+            st.rerun()
+        elif pw:
+            st.error("Incorrect password")
+        st.stop()  # 로그인 성공 전까진 아래 코드 실행 안 됨
+
+
+# st.write("DEBUG - Loaded Password:", PASSWORD)
+password_gate()
 
 # API Key는 환경변수에서 읽습니다.
 API_KEY = os.getenv("OPENAI_API_KEY", "")
@@ -24,13 +48,13 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
     schema_json: Pydantic 모델의 JSON 스키마 문자열
     url: 크롤링할 대상 URL
     instruction: 데이터 추출에 사용할 instruction
-    model_choice: 선택된 LLM 모델 (예: "gpt-4o" 또는 "gpt-4o-mini")
+    # model_choice: 선택된 LLM 모델 (예: "gpt-4o" 또는 "gpt-4o-mini")
     """
 
     async def main():
         # LLM Extraction Strategy 설정 (선택된 모델 반영)
         llm_strategy = LLMExtractionStrategy(
-            llm_config=LLMConfig(provider=f"openai/{model_choice}", api_token=API_KEY),
+            llm_config=LLMConfig(provider=f"{model_choice}", api_token=API_KEY),
             schema=schema_json,
             extraction_type="schema",
             instruction=instruction,
@@ -79,7 +103,7 @@ def main():
 
     # LLM 모델 선택 (사이드바)
     model_choice = st.sidebar.selectbox(
-        "Select LLM Model", ["gpt-4o", "gpt-4o-mini"], index=0
+        "Select LLM Model", ["openai/gpt-4o", "openai/gpt-4o-mini"], index=0
     )
 
     # 사이드바: 동적 필드 입력
