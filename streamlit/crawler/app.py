@@ -78,7 +78,9 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
             extraction_strategy=llm_strategy, cache_mode=CacheMode.BYPASS
         )
 
-        browser_cfg = BrowserConfig(headless=True)
+        browser_cfg = BrowserConfig(
+            headless=True, args=["--no-sandbox", "--disable-setuid-sandbox"]
+        )
 
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
             result = await crawler.arun(url=url, config=crawl_config)
