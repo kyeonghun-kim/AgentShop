@@ -25,6 +25,7 @@ load_dotenv(".env")
 
 # 비밀번호 설정 (보안상 .env 에서 불러오는 게 좋음)
 PASSWORD = os.getenv("APP_PASSWORD")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 
 
 def password_gate():
@@ -46,8 +47,7 @@ def password_gate():
 password_gate()
 
 # 🧠 사용자로부터 API Key 입력받기
-API_KEY = st.sidebar.text_input("Enter OpenAI API Key", type="password")
-if not API_KEY:
+if not OPENAI_API_KEY:
     st.warning("⚠️ API key가 입력되지 않았습니다.")
 
 
@@ -62,7 +62,7 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
     async def main():
         # LLM Extraction Strategy 설정 (선택된 모델 반영)
         llm_strategy = LLMExtractionStrategy(
-            llm_config=LLMConfig(provider=f"{model_choice}", api_token=API_KEY),
+            llm_config=LLMConfig(provider=f"{model_choice}", api_token=OPENAI_API_KEY),
             schema=schema_json,
             extraction_type="schema",
             instruction=instruction,
