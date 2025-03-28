@@ -1,3 +1,11 @@
+import subprocess
+
+# Streamlit Cloud에서 브라우저 설치 자동화
+try:
+    subprocess.run(["playwright", "install", "chromium"], check=True)
+except Exception as e:
+    print(f"Playwright browser install failed: {e}")
+
 import os
 import asyncio
 import json
