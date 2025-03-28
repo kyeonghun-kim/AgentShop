@@ -25,7 +25,7 @@ import os
 load_dotenv(".env")
 
 # 비밀번호 설정 (보안상 .env 에서 불러오는 게 좋음)
-PASSWORD = os.getenv("APP_PASSWORD", "wjsdbqlsdnwjddls123")
+PASSWORD = os.getenv("APP_PASSWORD", "rnalsdudWKdWKd123")
 
 
 def password_gate():
