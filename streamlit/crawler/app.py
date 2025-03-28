@@ -20,16 +20,12 @@ from crawl4ai import (
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from dotenv import load_dotenv
 import os
-from fake_useragent import UserAgent
 
 load_dotenv(".env")
 
 # 비밀번호 설정 (보안상 .env 에서 불러오는 게 좋음)
 PASSWORD = os.getenv("APP_PASSWORD")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-
-ua = UserAgent()
-random_ua = ua.random
 
 
 def password_gate():
@@ -83,10 +79,12 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
             page_timeout=120000,
         )
 
-        browser_cfg = BrowserConfig(headless=True, verbose=True, user_agent=random_ua)
+        browser_cfg = BrowserConfig(
+            headless=True, verbose=True, user_agent_mode="random"
+        )
 
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
-            result = await crawler.arun(url=url, config=crawl_config)
+            result = await crawler.arun(url=url, config=crawl_config, magic=True)
             if result.success:
                 data = json.loads(result.extracted_content)
                 return data, llm_strategy
