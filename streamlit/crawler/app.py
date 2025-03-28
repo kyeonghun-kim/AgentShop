@@ -74,13 +74,15 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
         )
 
         crawl_config = CrawlerRunConfig(
-            extraction_strategy=llm_strategy, cache_mode=CacheMode.BYPASS
+            extraction_strategy=llm_strategy,
+            cache_mode=CacheMode.BYPASS,
+            page_timeout=120000,
         )
 
-        browser_cfg = BrowserConfig(verbose=True)
+        browser_cfg = BrowserConfig(headless=True, verbose=True)
 
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
-            result = await crawler.arun(url=url, config=crawl_config, magic=True)
+            result = await crawler.arun(url=url, config=crawl_config)
             if result.success:
                 data = json.loads(result.extracted_content)
                 return data, llm_strategy
