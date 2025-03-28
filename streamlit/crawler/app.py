@@ -1,6 +1,5 @@
 import subprocess
 
-# Streamlit Cloud에서 브라우저 설치 자동화
 try:
     subprocess.run(["playwright", "install", "chromium"], check=True)
 except Exception as e:
@@ -81,7 +80,7 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
         browser_cfg = BrowserConfig(headless=True)
 
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
-            result = await crawler.arun(url=url, config=crawl_config)
+            result = await crawler.arun(url=url, config=crawl_config, magic=True)
             if result.success:
                 data = json.loads(result.extracted_content)
                 return data, llm_strategy
