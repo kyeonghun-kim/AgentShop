@@ -1,0 +1,4 @@
+Crawl4AI==0.5.0.post4
+openai==1.68.2
+pandas==2.2.3
+python-dotenv==1.0.1
