@@ -99,10 +99,6 @@ def main():
 
     # 메인 화면: 크롤링 URL 입력
     url = st.text_input("Enter URL to crawl", "https://example.com/products")
-    if not API_KEY:
-        st.warning(
-            "API key가 설정되어 있지 않습니다. OPENAI_API_KEY 환경변수를 확인하세요."
-        )
 
     # 사이드바: 모델 생성 및 extraction instruction 입력
     st.sidebar.title("Model & Extraction Settings")
