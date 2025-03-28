@@ -33,14 +33,15 @@ def password_gate():
             st.rerun()
         elif pw:
             st.error("Incorrect password")
-        st.stop()  # 로그인 성공 전까진 아래 코드 실행 안 됨
+        st.stop()
 
 
-# st.write("DEBUG - Loaded Password:", PASSWORD)
 password_gate()
 
-# API Key는 환경변수에서 읽습니다.
-API_KEY = os.getenv("OPENAI_API_KEY", "")
+# 🧠 사용자로부터 API Key 입력받기
+API_KEY = st.sidebar.text_input("Enter OpenAI API Key", type="password")
+if not API_KEY:
+    st.warning("⚠️ API key가 입력되지 않았습니다.")
 
 
 def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str):
