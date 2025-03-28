@@ -79,9 +79,7 @@ def run_crawler(schema_json: str, url: str, instruction: str, model_choice: str)
             page_timeout=120000,
         )
 
-        browser_cfg = BrowserConfig(
-            headless=True, verbose=True, user_agent_mode="random"
-        )
+        browser_cfg = BrowserConfig(headless=True, verbose=True)
 
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
             result = await crawler.arun(url=url, config=crawl_config)
